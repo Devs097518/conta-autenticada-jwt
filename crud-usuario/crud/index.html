@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Interface</title>
+    <style>
+        label,
+        input {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Create</h1>
+
+    <label for="email"> email: </label>
+    <input type="text" id="email" name="email" required>
+
+    <label for="senha"> senha: </label>
+    <input type="text" id="senha" name="senha" required>
+
+    <label for="role"> papel: [admin/user]</label>
+    <input type="text" id="role" name="role" required>
+
+    <button id="criar">Create</button>
+
+
+    <hr>
+
+
+    <h1>Read</h1>
+
+    <p id="resposta"></p>
+    <button id="ler">Read</button>
+
+
+    <hr>
+
+
+    <h1>Update</h1>
+
+    <label for="">id</label>
+    <input id="idU" type="text">
+
+    <label for="">email</label>
+    <input id="emailU" type="text">
+
+    <label for="">papel [admin/user]</label>
+    <input id="roleU" type="number">
+
+    <button id="editar">Update</button>
+
+
+    <hr>
+
+
+    <h1>Delete</h1>
+    <label for="">id</label>
+    <input id="idD" type="text">
+    <button id="deletar">Delete</button>
+
+
+    <hr>
+
+    <h1>JWT</h1>
+    <label for="">id</label>
+    <input id="emailJWT" type="text">
+    <label for="">Senha</label>
+    <input id="senhaJWT" type="text">
+    <button id="deletar">Delete</button>
+
+    
+
+
+    <script type="module" src="subform.js" defer></script>
+</body>
+
+</html>
