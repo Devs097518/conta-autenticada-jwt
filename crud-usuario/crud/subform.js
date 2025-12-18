@@ -89,6 +89,29 @@ async function deletar() {
     }
 }
 
+
+// db.collection.findOne({ nome: "João" }, (err, doc) => {
+//   console.log(doc);
+// });
+
+
+async function logar() {
+    try {
+        let emailJWT = document.getElementById("emailJWT").value;
+
+        let dadosBuscar = await fetch(
+            `http://localhost:3000/userLog/${emailJWT}`,
+        );
+        const dadosConvertidos = await dadosBuscar.json();
+        console.log(dadosConvertidos);
+
+    } catch (error) {
+        console.log("erro ao deletar os dados", error);
+    }
+}
+
+
+
 document.getElementById('criar').addEventListener('click', () => {
     criar();
 });
@@ -103,4 +126,8 @@ document.getElementById('editar').addEventListener('click', () => {
 
 document.getElementById('deletar').addEventListener('click', () => {
     deletar();
+});
+
+document.getElementById('logar').addEventListener('click', () => {
+    logar();
 });

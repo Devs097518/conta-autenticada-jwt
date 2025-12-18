@@ -40,17 +40,17 @@ app.post("/userADD", async (req, res) => {
   try {
     // Extrair a senha do req.body
     const { senha, ...outrosCampos } = req.body;
-    
+
     // Criptografar a senha
     const salt = await bcrypt.genSalt(1);
     const senhaCriptografada = await bcrypt.hash(senha, salt);
-    
+
     // Criar novo objeto com a senha criptografada
     const novoUser = await UserInfoSchema.create({
       ...outrosCampos,
       senha: senhaCriptografada
     });
-    
+
     res.json(novoUser);
   } catch (error) {
     res.json({ error: error.message });
@@ -95,6 +95,19 @@ app.delete("/userADD/:id", async (req, res) => {
     );
 
     res.json(DeletarUser)
+  }
+  catch (error) {
+    res.json({ error: error })
+  }
+});
+
+
+//LOGAR
+app.get("/userLog/:email", async (req, res) => {
+  try {
+    const busca = await UserInfoSchema.findOne({ email: req.params.email });
+    
+    res.json(busca)
   }
   catch (error) {
     res.json({ error: error })
