@@ -4,12 +4,14 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from "bcrypt";
 import UserInfoSchema from "./Modelo.js";
+import jwt from 'jsonwebtoken';
 
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
+
 
 // Middleware - Uma função que trata as informações recebidas
 
@@ -103,23 +105,97 @@ app.delete("/userADD/:id", async (req, res) => {
 
 
 //LOGAR
+
 app.get("/userLog/:email/:senha", async (req, res) => {
   try {
-    const { senha } = req.params; 
-    const busca = await UserInfoSchema.findOne({ email: req.params.email  });
+
+    const { senha } = req.params;
+    const busca = await UserInfoSchema.findOne({ email: req.params.email });
     
-    if (busca != null){
-      
+
+
+    if (busca != null) {
+
       const saoIguais = bcrypt.compareSync(senha, busca.senha);
-      res.json({ autenticado: saoIguais }); 
+      /* 
+      busca.email || busca.role funcionam 
+      mas precisam estar de dentro de uma variável 
+      como papel = busca.role
+      */
+      if (saoIguais) {
+        const id = busca.id;
+        const email = busca.email;
+        const role = busca.role;
+
+        const token = jwt.sign(
+          { id: id, email: email, role: role },
+          process.env.SECRET_KEY,
+          { expiresIn: '1h' }
+        );
+        console.log(token);
+        res.json({ token });
+      }
 
     }
-
-  }
-  catch (error) {
+  } catch (error) {
     res.json({ error: error })
   }
 });
+
+
+// //LOGAR
+// app.get("/userLog/:email/:senha", async (req, res) => {
+
+//   try {
+//     const { senha } = req.params; 
+//     const busca = await UserInfoSchema.findOne({ email: req.params.email  });
+
+//     if (busca != null){
+
+//       const saoIguais = bcrypt.compareSync(senha, busca.senha);
+//       res.json({ autenticado: saoIguais }); // true ou false
+
+//     }
+
+//   }
+//   catch (error) {
+//     res.json({ error: error })
+//   }
+// });
+
+
+// //LOGAR
+// app.get("/userLog/:email/:senha", async (req, res) => {
+//   try {
+//     const { senha } = req.params; 
+//     const busca = await UserInfoSchema.findOne({ email: req.params.email  });
+
+//     if (busca != null){
+//       res.json(busca);
+//       const saoIguais = bcrypt.compareSync(senha, busca.senha);
+//       // res.json({ autenticado: saoIguais }); // true ou false
+
+
+
+//       // if (saoIguais) {
+//       //         const token = jwt.sign(
+//       //             { id: busca.id, email: busca.email, role: busca.role },
+//       //             SECRET_KEY,
+//       //             { expiresIn: '1h' }
+//       //         );
+//       //         res.status(201).json({ token });
+
+//       //     } else {
+//       //         res.status(401).json({ message: 'Usuário ou senha inválidos' });
+//       //     }
+
+//     }
+
+//   }
+//   catch (error) {
+//     res.json({ error: error })
+//   }
+// });
 
 
 
